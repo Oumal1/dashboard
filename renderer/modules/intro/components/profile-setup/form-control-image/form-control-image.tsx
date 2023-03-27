@@ -21,7 +21,7 @@ export default function FormControlImage(props: {
     );
     if (!message.canceled) {
       const dirPath = message.filePaths[0];
-      global.ipcRenderer.send('set:base64Img', dirPath);
+      if (global.ipcRenderer) global.ipcRenderer.send('set:base64Img', dirPath);
     }
   };
 

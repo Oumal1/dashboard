@@ -29,48 +29,51 @@ export default function ProfileSetup(props: ProfileSetupProps): JSX.Element {
 
   useEffect(() => {
     if (props.settingsPage) loadProfile();
-
-    global.ipcRenderer.on(
-      'get:base64Img',
-      (_: IpcRendererEvent, value: string) => {
-        setData((prevSate: ProfileData) => {
-          const newState: ProfileData = { ...prevSate, image: value };
-          return newState;
-        });
-        if (props.settingsPage) setButtonsDisabled(false);
-      }
-    );
-
-    global.ipcRenderer.on(
-      'get:profileCreationStatus',
-      (_: IpcRendererEvent, status: string) => {
-        if (status === 'success') {
-          loadProfile();
-          if (!props.settingsPage) {
-            navigateToHome();
+    if (global.ipcRenderer && global.ipcRenderer.on)
+      global.ipcRenderer.on(
+        'get:base64Img',
+        (_: IpcRendererEvent, value: string) => {
+          setData((prevSate: ProfileData) => {
+            const newState: ProfileData = { ...prevSate, image: value };
+            return newState;
+          });
+          if (props.settingsPage) setButtonsDisabled(false);
+        }
+      );
+    if (global.ipcRenderer && global.ipcRenderer.on)
+      global.ipcRenderer.on(
+        'get:profileCreationStatus',
+        (_: IpcRendererEvent, status: string) => {
+          if (status === 'success') {
+            loadProfile();
+            if (!props.settingsPage) {
+              navigateToHome();
+            }
           }
         }
-      }
-    );
+      );
 
     return () => {
-      global.ipcRenderer.removeAllListeners('find:profile');
-      global.ipcRenderer.removeAllListeners('get:base64Img');
-      global.ipcRenderer.removeAllListeners('get:profileCreationStatus');
+      if (global.ipcRenderer) {
+        global.ipcRenderer.removeAllListeners('find:profile');
+        global.ipcRenderer.removeAllListeners('get:base64Img');
+        global.ipcRenderer.removeAllListeners('get:profileCreationStatus');
+      }
     };
   }, []);
 
   const loadProfile = () => {
-    global.ipcRenderer.invoke('find:profile').then((profile: ProfileData) => {
-      const sanitizedData = sanitizeData(profile);
-      setData(sanitizedData);
-      dispatch({
-        type: 'USER_PROFILE',
-        payload: {
-          userProfile: profile,
-        },
+    if (global.ipcRenderer)
+      global.ipcRenderer.invoke('find:profile').then((profile: ProfileData) => {
+        const sanitizedData = sanitizeData(profile);
+        setData(sanitizedData);
+        dispatch({
+          type: 'USER_PROFILE',
+          payload: {
+            userProfile: profile,
+          },
+        });
       });
-    });
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +108,7 @@ export default function ProfileSetup(props: ProfileSetupProps): JSX.Element {
     if (formEmpty()) {
       navigateToHome();
     } else {
-      global.ipcRenderer.send('set:profile', data);
+      if (global.ipcRenderer) global.ipcRenderer.send('set:profile', data);
     }
     setButtonsDisabled(true);
   };

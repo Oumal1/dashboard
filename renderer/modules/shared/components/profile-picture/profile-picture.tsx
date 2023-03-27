@@ -23,7 +23,8 @@ export default function ProfilePicture(): JSX.Element {
       loadProfile();
     }
     return () => {
-      global.ipcRenderer.removeAllListeners('find:profile');
+      if (global.ipcRenderer && global.ipcRenderer.removeAllListeners)
+        global.ipcRenderer.removeAllListeners('find:profile');
     };
   }, []);
 
@@ -32,14 +33,16 @@ export default function ProfilePicture(): JSX.Element {
   }, [state.userProfile]);
 
   const loadProfile = (): void => {
-    global.ipcRenderer.invoke('find:profile').then((profile: ProfileData) => {
-      dispatch({
-        type: 'USER_PROFILE',
-        payload: {
-          userProfile: profile,
-        },
+    if (global.ipcRenderer)
+      global.ipcRenderer.invoke('find:profile').then((profile: ProfileData) => {
+        console.log('test to show results' + state.userProfile);
+        dispatch({
+          type: 'USER_PROFILE',
+          payload: {
+            userProfile: profile,
+          },
+        });
       });
-    });
   };
 
   return (
@@ -55,7 +58,7 @@ export default function ProfilePicture(): JSX.Element {
             <Typography component="h6" variant="h6">
               <div className={classes.user}>
                 <span className={classes.name}>{profile.name}</span>
-                <span className={classes.role}>{profile.role}</span>
+                <span>test</span>
               </div>
             </Typography>
           </CardContent>

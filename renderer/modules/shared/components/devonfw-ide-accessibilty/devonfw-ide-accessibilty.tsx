@@ -16,9 +16,8 @@ export default function DevonfwIdeAccessibilty(): JSX.Element {
   const { state, dispatch } = useContext(StepperContext);
   const classes = devonfwIdeAccessibilityStyles();
   const [elRef, setElRef] = useState<null | HTMLElement>(null);
-  const refButton = useRef<HTMLButtonElement>() as MutableRefObject<
-    HTMLButtonElement
-  >;
+  const refButton =
+    useRef<HTMLButtonElement>() as MutableRefObject<HTMLButtonElement>;
   const open = Boolean(elRef);
   const id = open ? 'devonfw access' : undefined;
   useEffect(() => {

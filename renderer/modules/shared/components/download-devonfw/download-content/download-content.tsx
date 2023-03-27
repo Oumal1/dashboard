@@ -27,13 +27,14 @@ export default function DownloadContent(
   const [downloading, setDownloading] = useState(true);
 
   useEffect(() => {
-    global.ipcRenderer.on(
-      'download completed',
-      (_: unknown, saveInfo: SaveInfo) => {
-        setDownloading(false);
-        dispatch({ path: saveInfo.path, filename: saveInfo.filename });
-      }
-    );
+    if (global.ipcRenderer && global.ipcRenderer.on)
+      global.ipcRenderer.on(
+        'download completed',
+        (_: unknown, saveInfo: SaveInfo) => {
+          setDownloading(false);
+          dispatch({ path: saveInfo.path, filename: saveInfo.filename });
+        }
+      );
   }, []);
 
   const handleNext = () => {

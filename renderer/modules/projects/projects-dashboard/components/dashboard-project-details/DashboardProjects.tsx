@@ -53,18 +53,14 @@ export default function DashboardProjects(
     operation: false,
   };
   const [open, setOpen] = useState(false);
-  const [projectState, setProjectState] = useState<ProjectMenuType>(
-    initialState
-  );
-  const [alertMessage, setAlertMessage] = useState<AlertType>(
-    initialAlertState
-  );
-  const searchElement = useRef<HTMLInputElement>() as MutableRefObject<
-    HTMLInputElement
-  >;
-  const filterElement = useRef<HTMLInputElement>() as MutableRefObject<
-    HTMLInputElement
-  >;
+  const [projectState, setProjectState] =
+    useState<ProjectMenuType>(initialState);
+  const [alertMessage, setAlertMessage] =
+    useState<AlertType>(initialAlertState);
+  const searchElement =
+    useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
+  const filterElement =
+    useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const deleteConfimation = (value: boolean): void => {

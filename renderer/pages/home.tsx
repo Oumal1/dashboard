@@ -10,9 +10,10 @@ export default function Home(): JSX.Element {
   const [totalProjects, setTotalProjects] = useState(0);
 
   useEffect(() => {
-    global.ipcRenderer
-      .invoke('count:projetcs')
-      .then((count) => setTotalProjects(count));
+    if (global.ipcRendere && global.ipcRenderer.invoke)
+      global.ipcRenderer
+        .invoke('count:projetcs')
+        .then((count) => setTotalProjects(count));
 
     if (!state.projectData.path) {
       dispatch({ type: 'ACCESSIBILITY' });

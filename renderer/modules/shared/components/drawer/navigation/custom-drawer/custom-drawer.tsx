@@ -28,27 +28,27 @@ export default function CustomDrawer(props: CustomDrawerProps): JSX.Element {
     infoText: '',
   };
   const [displayUpgradeBanner, setDisplayUpgradeBanner] = useState(false);
-  const [upgradeBannerProps, setUpgradeBannerProps] = useState<
-    UpgradeBannerProps
-  >(initialProps);
+  const [upgradeBannerProps, setUpgradeBannerProps] =
+    useState<UpgradeBannerProps>(initialProps);
 
   const getLatesDevonIdeVersion = (): void => {
-    global.ipcRenderer.send('find:checkForUpdates');
-    global.ipcRenderer.on(
-      'get:checkForUpdates',
-      (_: IpcRendererEvent, data: DevonUpdateResponse) => {
-        if (data.updateAvailable) {
-          const props: UpgradeBannerProps = {
-            version: data.latestAvailableVersion,
-            infoText:
-              'Latest version installed in your system is ' +
-              data.latestLocalVersion,
-          };
-          setDisplayUpgradeBanner(true);
-          setUpgradeBannerProps({ ...props });
+    if (global.ipcRenderer) global.ipcRenderer.send('find:checkForUpdates');
+    if (global.ipcRenderer)
+      global.ipcRenderer.on(
+        'get:checkForUpdates',
+        (_: IpcRendererEvent, data: DevonUpdateResponse) => {
+          if (data.updateAvailable) {
+            const props: UpgradeBannerProps = {
+              version: data.latestAvailableVersion,
+              infoText:
+                'Latest version installed in your system is ' +
+                data.latestLocalVersion,
+            };
+            setDisplayUpgradeBanner(true);
+            setUpgradeBannerProps({ ...props });
+          }
         }
-      }
-    );
+      );
   };
 
   useEffect(() => {

@@ -28,6 +28,8 @@ const utilReaddir = util.promisify(fs.readdir);
 const rmdir = util.promisify(fs.rmdir);
 const unlink = util.promisify(fs.unlink);
 
+console.log(devonFilePath);
+
 export default class DevonInstancesService implements SaveDetails {
   private idePathsFile: File;
 
@@ -118,8 +120,10 @@ export default class DevonInstancesService implements SaveDetails {
   async getAllUserCreatedDevonInstances(): Promise<DevonfwConfig> {
     try {
       const data = await this.idePathsFile.read();
+      console.log('these are the instances ' + this.idePathsFile);
       const instances = await this.devonfwInstance(data.toString('utf8'));
-
+      console.log(this.idePathsFile);
+      console.log('these are the instances ' + instances);
       return instances;
     } catch (err) {
       return { distributions: [] };
@@ -127,7 +131,8 @@ export default class DevonInstancesService implements SaveDetails {
   }
 
   async getInstalledVersions(): Promise<string[]> {
-    const devonfwConfig: DevonfwConfig = await this.getAllUserCreatedDevonInstances();
+    const devonfwConfig: DevonfwConfig =
+      await this.getAllUserCreatedDevonInstances();
     const distributions: IdeDistribution[] = devonfwConfig.distributions;
     const versions: string[] = distributions.map(
       (distribution: IdeDistribution) => distribution.ideConfig.version
@@ -137,7 +142,8 @@ export default class DevonInstancesService implements SaveDetails {
   }
 
   async getInstalledDevonfwIDEs(): Promise<DevonIdeScript[]> {
-    const devonfwConfig: DevonfwConfig = await this.getAllUserCreatedDevonInstances();
+    const devonfwConfig: DevonfwConfig =
+      await this.getAllUserCreatedDevonInstances();
     const distributions: IdeDistribution[] = devonfwConfig.distributions;
     const installedDevonfwIDEs: DevonIdeScript[] = distributions.map(
       (distribution: IdeDistribution) => {
@@ -235,6 +241,7 @@ export default class DevonInstancesService implements SaveDetails {
         resolve(data ? JSON.parse(data.toString()) : []);
       });
     });
+    console.log(devonFilePath);
   }
 
   async deleteProjectFolder(projectPath: string): Promise<void> {

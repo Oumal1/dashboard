@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IpcRendererEvent } from 'electron';
+//import { IpcRendererEvent } from 'electron';
 import { ProfileData } from '../../../../models/dashboard/profile-data';
 import Grid from '@material-ui/core/Grid';
 import WelcomeSnippet from '../welcome-snippet/welcome-snippet';
@@ -12,15 +12,18 @@ export default function WelcomeToDevonfw(): JSX.Element {
   const [avatar, setAvatar] = useState('male.svg');
 
   useEffect(() => {
-    global.ipcRenderer.invoke('find:profile').then((profile: ProfileData) => {
-      if (profile.gender !== '') {
-        const avatarImg = profile.gender + '.svg';
-        setAvatar(avatarImg);
-      }
-    });
+    if (global.ipcRenderer)
+      global.ipcRenderer.invoke('find:profile').then((profile: ProfileData) => {
+        console.log('show profile');
+        if (profile.gender !== '') {
+          const avatarImg = profile.gender + '.svg';
+          setAvatar(avatarImg);
+        }
+      });
 
     return () => {
-      global.ipcRenderer.removeAllListeners('find:profile');
+      if (global.ipcRenderer)
+        global.ipcRenderer.removeAllListeners('find:profile');
     };
   }, []);
 

@@ -12,6 +12,8 @@ declare global {
 
 // Since we disabled nodeIntegration we can reintroduce
 // needed node functionality here
+
 process.once('loaded', () => {
+  console.log(ipcRenderer);
   global.ipcRenderer = ipcRenderer;
 });

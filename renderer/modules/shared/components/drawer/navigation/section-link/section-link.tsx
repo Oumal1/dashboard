@@ -31,16 +31,18 @@ export default function SectionLink(props: SectionLinkProps): JSX.Element {
 
   return (
     <>
-      <ListItem
-        button
-        component={NextLink}
-        href={props.path}
-        onClick={props.submenu ? toggleSubmenu : undefined}
-      >
-        <ListItemIcon className={activeClass}>{props.icon}</ListItemIcon>
-        <ListItemText className={activeClass} primary={props.section} />
-        {props.submenu ? open ? <ExpandLess /> : <ExpandMore /> : null}
-      </ListItem>
+      {props.section != 'Projects' ? (
+        <ListItem
+          button
+          component={NextLink}
+          href={props.path}
+          onClick={props.submenu ? toggleSubmenu : undefined}
+        >
+          <ListItemIcon className={activeClass}>{props.icon}</ListItemIcon>
+          <ListItemText className={activeClass} primary={props.section} />
+          {props.submenu ? open ? <ExpandLess /> : <ExpandMore /> : null}
+        </ListItem>
+      ) : null}
       {props.submenu ? (
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" className={classes.nested}>

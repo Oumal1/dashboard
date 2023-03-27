@@ -17,9 +17,14 @@ interface BasicLinkProps {
 
 const NextLink = React.forwardRef<Ref, NextLinkProps>(
   ({ href, as, prefetch, ...props }: BasicLinkProps, ref) => (
-    <Link href={href} as={as} prefetch={prefetch} passHref>
-      <a ref={ref} {...props} />
-    </Link>
+    <Link
+      href={href}
+      as={as}
+      prefetch={prefetch}
+      passHref
+      ref={ref}
+      {...props}
+    ></Link>
   )
 );
 

@@ -17,6 +17,10 @@ export default function Drawer(props: { children: JSX.Element }): JSX.Element {
   const router = useRouter().route;
   const { state } = useContext(StepperContext);
 
+  /*useEffect(() => {
+    console.log('test for the rendering');
+  }, []);
+*/
   return (
     <div className={classes.root}>
       <CssBaseline />

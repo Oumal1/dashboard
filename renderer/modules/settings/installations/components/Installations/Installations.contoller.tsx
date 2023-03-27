@@ -59,29 +59,32 @@ export default class Installations extends Component<
   }
 
   componentDidMount(): void {
-    global.ipcRenderer.send('fetch:devonIdeScripts');
+    if (global.ipcRenderer && global.ipcRenderer.send)
+      global.ipcRenderer.send('fetch:devonIdeScripts');
     this.setState({ loading: true });
     this.getInstallations();
   }
 
   componentWillUnmount(): void {
-    global.ipcRenderer.removeAllListeners('get:devonIdeScripts');
+    if (global.ipcRenderer)
+      global.ipcRenderer.removeAllListeners('get:devonIdeScripts');
   }
 
   getInstallations = (): void => {
-    global.ipcRenderer.on(
-      'get:devonIdeScripts',
-      (_: IpcRendererEvent, installations: DevonIdeScript) => {
-        this.setState((prev) => {
-          return {
-            installations: [...prev.installations, installations],
-            query: '',
-            loading: false,
-          };
-        });
-        this.allInstallations.push(installations);
-      }
-    );
+    if (global.ipcRenderer)
+      global.ipcRenderer.on(
+        'get:devonIdeScripts',
+        (_: IpcRendererEvent, installations: DevonIdeScript) => {
+          this.setState((prev) => {
+            return {
+              installations: [...prev.installations, installations],
+              query: '',
+              loading: false,
+            };
+          });
+          this.allInstallations.push(installations);
+        }
+      );
   };
 
   queryHandler = (event: ChangeEvent<{ value: unknown }>): void => {

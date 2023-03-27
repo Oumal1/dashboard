@@ -213,7 +213,7 @@ export default function NgData(): JSX.Element {
         </Grid>
       </form>
       <div className={classes.action}>
-        <Link href="/projects/creation">
+        <Link href="/projects/creation" legacyBehavior>
           <div>
             <Button variant="outlined" onClick={setActiveState}>
               Back

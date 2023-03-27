@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {   
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:8000/home",
+            "webRoot": "${workspaceFolder}",
+    
+            "sourceMapPathOverrides": {
+               // "webpack:///./~/*": "${workspaceFolder}/../ui-web-server/node_modules/*",
+               // "webpack:///./*": "${workspaceFolder}/../ui-web-server/*",
+                "webpack:///*": "${WebRoot}/*",
+               // "webpack:///src/*": "${workspaceFolder}/../ui-web-server/*",
+            },
+            "sourceMaps": true
+         
+        }
+    ],
+  
+}

@@ -34,8 +34,15 @@ import InstallIdeListener from './modules/shared/services/install-ide-listener';
 import LicenseListener from './modules/shared/services/license-listener';
 import UpdateIdeListener from './modules/settings/installed-versions/services/listeners/update-ide.listener';
 import { OpenIdeListener } from './modules/ides/listeners/open-ide-listener';
+import path from 'path';
 
 let mainWindow: BrowserWindow;
+
+const directoryPath = path.join(process.cwd());
+process.chdir(directoryPath);
+//console.log(process.cwd());
+//console.log(__dirname);
+
 // Prepare the renderer once the app is ready
 app.on('ready', async () => {
   await prepareNext('./renderer');
@@ -43,7 +50,7 @@ app.on('ready', async () => {
     width: 1500,
     height: 768,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       preload: join(__dirname, 'preload.js'),
     },
   });
@@ -118,6 +125,7 @@ function getDevonInstancesPath() {
         'get:devoninstances',
         instancesPath.distributions
       );
+      console.log('show me the path if it works');
     })
     .catch((error) => {
       console.log(error);
@@ -131,8 +139,18 @@ function getDevonInstancesPath() {
           workspaces: process.cwd() + '\\workspaces',
         },
       };
+
+      console.log(process.cwd());
+
       mainWindow.webContents.send('get:devoninstances', [fakeInstance]);
+      console.log(
+        mainWindow.webContents.send('get:devoninstances', [fakeInstance])
+      );
     });
+  console.log(
+    'show me the path if it works',
+
+  );
 }
 
 function getWorkspaceProject(workspacelocation: string) {

@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { Theme } from '@material-ui/core/styles';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
 
@@ -34,7 +34,7 @@ export const useProfilePictureStyles = makeStyles((theme: Theme) =>
       lineHeight: 1,
     },
     name: {
-      fontWeight: theme.typography.fontWeightBold,
+      FontWeight: theme.typography.fontWeightBold,
       color: theme.palette.primary.main,
     },
   })

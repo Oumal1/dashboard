@@ -25,17 +25,17 @@ export default function LandingPage(props: LandingPageProps): JSX.Element {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   useEffect(() => {
-    global.ipcRenderer.send('find:devonfwInstances');
-
-    global.ipcRenderer.on(
-      'get:devoninstances',
-      (_: IpcRendererEvent, data: IdeInstallations[]) => {
-        if (data.length) {
-          setIDEs(data);
-          setOpenDialog(true);
+    if (global.ipcRenderer) global.ipcRenderer.send('find:devonfwInstances');
+    if (global.ipcRenderer)
+      global.ipcRenderer.on(
+        'get:devoninstances',
+        (_: IpcRendererEvent, data: IdeInstallations[]) => {
+          if (data.length) {
+            setIDEs(data);
+            setOpenDialog(true);
+          }
         }
-      }
-    );
+      );
     return () => {
       global.ipcRenderer.removeAllListeners('find:devonfwInstances');
       global.ipcRenderer.removeAllListeners('get:devoninstances');
